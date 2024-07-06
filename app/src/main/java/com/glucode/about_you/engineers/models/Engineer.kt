@@ -1,9 +1,9 @@
 package com.glucode.about_you.engineers.models
 
 data class Engineer(
-    val name: String,
-    val role: String,
-    val defaultImageName: String,
-    val quickStats: QuickStats,
-    val questions: List<Question>,
+    val name: String = "",
+    val role: String = "",
+    var defaultImageName: String = "",
+    val quickStats: QuickStats = QuickStats(0, 0, 0),
+    val questions: List<Question> = emptyList(),
 )

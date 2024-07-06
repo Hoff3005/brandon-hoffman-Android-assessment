@@ -10,4 +10,10 @@
 
     <!--About-->
     <string name="about_screen_title">About</string>
+    <string name="profile_image_content_description">Profile Image</string>
+
+
+    <string name="profile_stat_years">Years</string>
+    <string name="profile_stat_coffees">Coffees</string>
+    <string name="profile_stat_bugs">Bugs</string>
 </resources>
