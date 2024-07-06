@@ -7,25 +7,28 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.glucode.about_you.EngineerViewmodel
+import androidx.fragment.app.activityViewModels
 import com.glucode.about_you.R
 import com.glucode.about_you.about.views.ProfileStandardCardView
 import com.glucode.about_you.about.views.QuestionCardView
 import com.glucode.about_you.databinding.FragmentAboutBinding
+import com.glucode.about_you.engineers.EngineerViewmodel
 import com.glucode.about_you.engineers.EngineersFragment.Companion.ENGINEER_NAME_ARGUMENT
 import com.glucode.about_you.engineers.models.Engineer
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AboutFragment : Fragment() {
     private lateinit var binding: FragmentAboutBinding
-    private val engineerViewModel: EngineerViewmodel by viewModels()
+    private val engineerViewModel: EngineerViewmodel by activityViewModels()
     private lateinit var profileView: ProfileStandardCardView
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        val galleryUri = it
         try {
-//            profileView.setProfileImage(galleryUri)TODO
-//            engineerViewModel.updatedSelectedEngineerProfilePicture(galleryUri.toString())
+            it?.let {
+                profileView.setProfileImage(it)
+                engineerViewModel.updatedSelectedEngineerProfilePicture(it.toString())
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

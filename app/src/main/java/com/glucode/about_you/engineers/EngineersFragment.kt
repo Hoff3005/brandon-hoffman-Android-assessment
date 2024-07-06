@@ -8,18 +8,19 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.glucode.about_you.EngineerViewmodel
 import com.glucode.about_you.R
 import com.glucode.about_you.databinding.FragmentEngineersBinding
 import com.glucode.about_you.engineers.models.Engineer
 import com.glucode.about_you.engineers.models.QuickStatsEnum
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EngineersFragment : Fragment() {
     private lateinit var binding: FragmentEngineersBinding
-    private val engineerViewModel: EngineerViewmodel by viewModels()
+    private val engineerViewModel: EngineerViewmodel by activityViewModels()
 
     companion object {
         const val ENGINEER_NAME_ARGUMENT = "name"
@@ -32,6 +33,7 @@ class EngineersFragment : Fragment() {
     ): View {
         binding = FragmentEngineersBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
+        engineerViewModel.loadEngineers()
         engineerViewModel.engineers.observe(viewLifecycleOwner) {
             setUpEngineersList(it)
         }
