@@ -7,8 +7,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.glucode.about_you.R
@@ -32,26 +35,40 @@ class EngineersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEngineersBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
         engineerViewModel.loadEngineers()
         engineerViewModel.engineers.observe(viewLifecycleOwner) {
             setUpEngineersList(it)
         }
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_engineers, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_years -> {
+                        engineerViewModel.sortEngineersByStat(QuickStatsEnum.YEARS)
+                        true
+                    }
+
+                    R.id.action_coffees -> {
+                        engineerViewModel.sortEngineersByStat(QuickStatsEnum.COFFEES)
+                        true
+                    }
+
+                    R.id.action_bugs -> {
+                        engineerViewModel.sortEngineersByStat(QuickStatsEnum.BUGS)
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_engineers, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_years -> engineerViewModel.sortEngineersByStat(QuickStatsEnum.YEARS)
-            R.id.action_coffees -> engineerViewModel.sortEngineersByStat(QuickStatsEnum.COFFEES)
-            R.id.action_bugs -> engineerViewModel.sortEngineersByStat(QuickStatsEnum.BUGS)
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun setUpEngineersList(engineers: List<Engineer>) {
