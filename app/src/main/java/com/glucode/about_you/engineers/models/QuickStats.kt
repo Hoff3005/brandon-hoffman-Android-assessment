@@ -5,3 +5,9 @@ data class QuickStats(
     val coffees: Int,
     val bugs: Int
 )
+
+enum class QuickStatsEnum {
+    YEARS,
+    COFFEES,
+    BUGS
+}

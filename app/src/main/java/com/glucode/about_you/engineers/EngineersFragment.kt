@@ -8,17 +8,18 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.glucode.about_you.EngineerViewmodel
 import com.glucode.about_you.R
 import com.glucode.about_you.databinding.FragmentEngineersBinding
 import com.glucode.about_you.engineers.models.Engineer
+import com.glucode.about_you.engineers.models.QuickStatsEnum
 
 class EngineersFragment : Fragment() {
     private lateinit var binding: FragmentEngineersBinding
-    private val engineerViewModel: EngineerViewmodel by activityViewModels()
+    private val engineerViewModel: EngineerViewmodel by viewModels()
 
     companion object {
         const val ENGINEER_NAME_ARGUMENT = "name"
@@ -43,8 +44,10 @@ class EngineersFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_years) {
-            return true
+        when (item.itemId) {
+            R.id.action_years -> engineerViewModel.sortEngineersByStat(QuickStatsEnum.YEARS)
+            R.id.action_coffees -> engineerViewModel.sortEngineersByStat(QuickStatsEnum.COFFEES)
+            R.id.action_bugs -> engineerViewModel.sortEngineersByStat(QuickStatsEnum.BUGS)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -53,8 +56,11 @@ class EngineersFragment : Fragment() {
         binding.list.adapter = EngineersRecyclerViewAdapter(engineers) {
             goToAbout(it)
         }
-        val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        binding.list.addItemDecoration(dividerItemDecoration)
+        if (binding.list.itemDecorationCount != 1) {
+            val dividerItemDecoration =
+                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            binding.list.addItemDecoration(dividerItemDecoration)
+        }
     }
 
     private fun goToAbout(engineer: Engineer) {
