@@ -24,8 +24,8 @@ class AboutFragment : Fragment() {
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         val galleryUri = it
         try {
-            profileView.setProfileImage(galleryUri)
-            engineerViewModel.updatedSelectedEngineerProfilePicture(galleryUri.toString())
+//            profileView.setProfileImage(galleryUri)TODO
+//            engineerViewModel.updatedSelectedEngineerProfilePicture(galleryUri.toString())
         } catch (e: Exception) {
             e.printStackTrace()
         }
