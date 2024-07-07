@@ -11,6 +11,7 @@
 - [X] Tested and Working on API 23
 - [X] Tested and Working on API 35
 - [X] Instrument Tests
+- [X] Fixed Dark Mode
 
 # Glucode Interview Assignment
 

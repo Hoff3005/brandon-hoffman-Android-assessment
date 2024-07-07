@@ -1,6 +1,7 @@
 package com.glucode.about_you.engineers
 
 import android.content.res.ColorStateList
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -47,10 +48,13 @@ class EngineersRecyclerViewAdapter(
                     binding.profileImage, null
                 )
             } else {
+                val context = binding.root.context
+                val typedValue = TypedValue()
+                context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+                val color = ContextCompat.getColor(context, typedValue.resourceId)
+
                 ImageViewCompat.setImageTintList(
-                    binding.profileImage, ColorStateList.valueOf(
-                        ContextCompat.getColor(binding.root.context, R.color.black)
-                    )
+                    binding.profileImage, ColorStateList.valueOf(color)
                 )
             }
         }

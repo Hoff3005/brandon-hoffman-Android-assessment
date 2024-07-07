@@ -19,8 +19,10 @@ class EngineerViewmodel @Inject constructor(private val repository: EngineerRepo
     private var selectedEngineer: Engineer = Engineer()
 
     fun loadEngineers() {
-        viewModelScope.launch {
-            _engineers.postValue(repository.fetchEngineers())
+        if (!_engineers.isInitialized) {
+            viewModelScope.launch {
+                _engineers.postValue(repository.fetchEngineers())
+            }
         }
     }
 
