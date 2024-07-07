@@ -13,6 +13,7 @@
         android:layout_margin="@dimen/margin_normal"
         android:src="@drawable/ic_person"
         android:scaleType="centerCrop"
+        android:background="@drawable/round_outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

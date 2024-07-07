@@ -42,6 +42,7 @@ class EngineersRecyclerViewAdapter(
             binding.root.setOnClickListener {
                 onClick(engineer)
             }
+            binding.profileImage.clipToOutline = true
             if (engineer.defaultImageName.isNotBlank()) {
                 binding.profileImage.setImageURI(engineer.defaultImageName.toUri())
                 ImageViewCompat.setImageTintList(
