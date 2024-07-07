@@ -8,7 +8,7 @@ import javax.inject.Inject
 class EngineerRepository @Inject constructor() {
 
     suspend fun fetchEngineers(): List<Engineer> {
-        delay(100)//Not necessary but wanted to mimic a service response and show coroutines. Repo also allows for static data to be replaced with service in the future.
+        delay(500)//Not necessary but wanted to mimic a service response and show coroutines. Repo also allows for static data to be replaced with service in the future.
         return MockData.engineers
     }
 }

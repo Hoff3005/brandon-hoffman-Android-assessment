@@ -35,11 +35,35 @@ class EngineersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEngineersBinding.inflate(inflater, container, false)
+
         engineerViewModel.loadEngineers()
         engineerViewModel.engineers.observe(viewLifecycleOwner) {
             setUpEngineersList(it)
         }
 
+        setUpMenu()
+        return binding.root
+    }
+
+    private fun setUpEngineersList(engineers: List<Engineer>) {
+        binding.list.adapter = EngineersRecyclerViewAdapter(engineers) {
+            goToAbout(it)
+        }
+        if (binding.list.itemDecorationCount != 1) {
+            val dividerItemDecoration =
+                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            binding.list.addItemDecoration(dividerItemDecoration)
+        }
+    }
+
+    private fun goToAbout(engineer: Engineer) {
+        val bundle = Bundle().apply {
+            putString(ENGINEER_NAME_ARGUMENT, engineer.name)
+        }
+        findNavController().navigate(R.id.action_engineersFragment_to_aboutFragment, bundle)
+    }
+
+    private fun setUpMenu() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -67,25 +91,5 @@ class EngineersFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        return binding.root
-    }
-
-    private fun setUpEngineersList(engineers: List<Engineer>) {
-        binding.list.adapter = EngineersRecyclerViewAdapter(engineers) {
-            goToAbout(it)
-        }
-        if (binding.list.itemDecorationCount != 1) {
-            val dividerItemDecoration =
-                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-            binding.list.addItemDecoration(dividerItemDecoration)
-        }
-    }
-
-    private fun goToAbout(engineer: Engineer) {
-        val bundle = Bundle().apply {
-            putString(ENGINEER_NAME_ARGUMENT, engineer.name)
-        }
-        findNavController().navigate(R.id.action_engineersFragment_to_aboutFragment, bundle)
     }
 }

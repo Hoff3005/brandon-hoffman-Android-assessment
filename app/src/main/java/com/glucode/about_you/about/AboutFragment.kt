@@ -48,9 +48,11 @@ class AboutFragment : Fragment() {
 
         profileView = ProfileStandardCardView(requireContext())
         arguments?.getString(ENGINEER_NAME_ARGUMENT)?.let { name ->
-            val engineer = engineerViewModel.getEngineerByName(name)
-            engineerViewModel.selectedEngineer = engineer
-            setupViews(engineerViewModel.selectedEngineer)
+            with(engineerViewModel) {
+                val engineer = getEngineerByName(name)
+                setSelectedEngineer(engineer)
+                setupViews(getSelectedEngineer())
+            }
         }
     }
 
@@ -71,18 +73,18 @@ class AboutFragment : Fragment() {
         }
     }
 
-    private fun setUpProfile(engineer: Engineer) {
-        profileView.name = engineer.name
-        profileView.role = engineer.role
-        profileView.stats = engineer.quickStats
+    private fun setUpProfile(engineer: Engineer) = with(profileView) {
+        name = engineer.name
+        role = engineer.role
+        stats = engineer.quickStats
         if (engineer.defaultImageName.isNotBlank()) {
-            profileView.setProfileImage(engineer.defaultImageName.toUri())
+            setProfileImage(engineer.defaultImageName.toUri())
         } else {
-            profileView.setProfileImage(R.drawable.ic_person)
+            setProfileImage(R.drawable.ic_person)
         }
-        profileView.onProfileImageClicked = {
+        onProfileImageClicked = {
             galleryLauncher.launch("image/*")
         }
-        binding.container.addView(profileView)
+        binding.container.addView(this)
     }
 }

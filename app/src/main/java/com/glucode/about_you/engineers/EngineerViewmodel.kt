@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.glucode.about_you.engineers.models.Engineer
 import com.glucode.about_you.engineers.models.QuickStatsEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,11 +15,11 @@ class EngineerViewmodel @Inject constructor(private val repository: EngineerRepo
     ViewModel() {
 
     private val _engineers = MutableLiveData<List<Engineer>>()
-    var engineers: LiveData<List<Engineer>> = _engineers
-    var selectedEngineer: Engineer = Engineer()
+    val engineers: LiveData<List<Engineer>> get() = _engineers
+    private var selectedEngineer: Engineer = Engineer()
 
     fun loadEngineers() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _engineers.postValue(repository.fetchEngineers())
         }
     }
@@ -42,4 +41,10 @@ class EngineerViewmodel @Inject constructor(private val repository: EngineerRepo
         }
         _engineers.postValue(sortedList ?: _engineers.value)
     }
+
+    fun setSelectedEngineer(engineer: Engineer) {
+        selectedEngineer = engineer
+    }
+
+    fun getSelectedEngineer(): Engineer = selectedEngineer
 }

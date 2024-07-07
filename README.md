@@ -1,3 +1,14 @@
+# Things done
+
+- [X] All bugs resolved
+- [X] Standard profile custom view created and image showing in list
+- [X] Sort list by engineer stat done
+- [X] Gradle Plugins updated
+- [X] Libraries Updated
+- [X] Deprecated Methods Updated
+- [X] Dependency Injection Added
+- [X] Unit Tests
+
 # Glucode Interview Assignment
 
 Hi there! 
