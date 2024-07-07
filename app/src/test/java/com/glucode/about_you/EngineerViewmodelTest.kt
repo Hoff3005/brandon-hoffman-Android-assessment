@@ -1,7 +1,12 @@
 package com.glucode.about_you
 
+import android.net.Uri
+import androidx.activity.result.ActivityResultRegistry
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
+import com.glucode.about_you.about.GalleryResultContract
 import com.glucode.about_you.engineers.EngineerRepository
 import com.glucode.about_you.engineers.EngineerViewmodel
 import com.glucode.about_you.engineers.models.Engineer
@@ -90,10 +95,10 @@ class EngineerViewmodelTest {
 
         for (i in 0..<sortedEngineers.count()) {
             if (i < sortedEngineers.count() - 1) {
-                val isNextEngineerIsGreaterThanPrevious =
-                    sortedEngineers[i].quickStats.bugs <= sortedEngineers[i + 1].quickStats.bugs//Proves Ascending order
+                val isNextEngineerBugsGreaterThanPrevious =
+                    sortedEngineers[i].quickStats.bugs <= sortedEngineers[i + 1].quickStats.bugs
 
-                assertTrue(isNextEngineerIsGreaterThanPrevious)
+                assertTrue(isNextEngineerBugsGreaterThanPrevious)
             }
         }
     }
@@ -107,10 +112,10 @@ class EngineerViewmodelTest {
 
         for (i in 0..<sortedEngineers.count()) {
             if (i < sortedEngineers.count() - 1) {
-                val isNextEngineerIsGreaterThanPrevious =
-                    sortedEngineers[i].quickStats.coffees <= sortedEngineers[i + 1].quickStats.coffees//Proves Ascending order
+                val isNextEngineerCoffeesGreaterThanPrevious =
+                    sortedEngineers[i].quickStats.coffees <= sortedEngineers[i + 1].quickStats.coffees
 
-                assertTrue(isNextEngineerIsGreaterThanPrevious)
+                assertTrue(isNextEngineerCoffeesGreaterThanPrevious)
             }
         }
     }
@@ -124,10 +129,10 @@ class EngineerViewmodelTest {
 
         for (i in 0..<sortedEngineers.count()) {
             if (i < sortedEngineers.count() - 1) {
-                val isNextEngineerIsGreaterThanPrevious =
-                    sortedEngineers[i].quickStats.years <= sortedEngineers[i + 1].quickStats.years//Proves Ascending order
+                val isNextEngineerYearsGreaterThanPrevious =
+                    sortedEngineers[i].quickStats.years <= sortedEngineers[i + 1].quickStats.years
 
-                assertTrue(isNextEngineerIsGreaterThanPrevious)
+                assertTrue(isNextEngineerYearsGreaterThanPrevious)
             }
         }
     }
@@ -152,5 +157,25 @@ class EngineerViewmodelTest {
             engineerViewmodel.engineers.getOrAwaitValue().first().defaultImageName,
             profilePictureUri
         )
+    }
+
+    @Test
+    fun `successfully receive uri from gallery contract activity result`() {
+        val testUrl = "file//dummy_file.test"
+        val expectedResult = Uri.parse(testUrl)
+
+        val testRegistry = object : ActivityResultRegistry() {
+            override fun <I, O> onLaunch(
+                requestCode: Int,
+                contract: ActivityResultContract<I, O>,
+                input: I,
+                options: ActivityOptionsCompat?
+            ) {
+                dispatchResult(requestCode, expectedResult)
+            }
+        }
+
+        val uri = GalleryResultContract(testRegistry).getImageFromGallery().getOrAwaitValue()
+        assert(uri == expectedResult)
     }
 }

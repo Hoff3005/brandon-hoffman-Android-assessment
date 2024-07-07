@@ -263,7 +263,7 @@ class MainActivityTest {
             .setData(Uri.parse("android.resource://com.glucode.about_you/drawable/ic_launcher_background"))
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
 
-        intending(toPackage("com.android.contacts")).respondWith(result)
+        intending(toPackage("com.android.filestorage")).respondWith(result)
 
         appCompatImageView.perform(click())
     }

@@ -35,6 +35,10 @@ android {
         viewBinding true
     }
     namespace 'com.glucode.about_you'
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -54,8 +58,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     implementation 'androidx.test.espresso:espresso-contrib:3.6.1'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.6.1'
-    androidTestImplementation "androidx.fragment:fragment-testing:1.8.1"
-    debugImplementation "androidx.fragment:fragment-testing-manifest:1.8.1"
 
     //Unit Tests
     testImplementation 'junit:junit:4.13.2'

@@ -1,11 +1,9 @@
 package com.glucode.about_you.about
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -22,18 +20,7 @@ class AboutFragment : Fragment() {
     private lateinit var binding: FragmentAboutBinding
     private val engineerViewModel: EngineerViewmodel by activityViewModels()
     private lateinit var profileView: ProfileStandardCardView
-
-    private val galleryLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        try {
-            uri?.let {
-                profileView.setProfileImage(it)
-                engineerViewModel.updatedSelectedEngineerProfilePicture(it.toString())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    private lateinit var galleryResultContract: GalleryResultContract
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +33,7 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        galleryResultContract = GalleryResultContract(requireActivity().activityResultRegistry)
 
         profileView = ProfileStandardCardView(requireContext())
         arguments?.getString(ENGINEER_NAME_ARGUMENT)?.let { name ->
@@ -82,8 +70,18 @@ class AboutFragment : Fragment() {
             setProfileImage(engineer.defaultImageName.toUri())
         }
         onProfileImageClicked = {
-            galleryLauncher.launch("image/*")
+            openGallery()
         }
         binding.container.addView(this)
+    }
+
+    private fun openGallery() {
+        galleryResultContract.getImageFromGallery()
+            .observe(viewLifecycleOwner) {
+                it?.let { uri ->
+                    profileView.setProfileImage(uri)
+                    engineerViewModel.updatedSelectedEngineerProfilePicture(uri.toString())
+                }
+            }
     }
 }
