@@ -8,6 +8,9 @@
 - [X] Deprecated Methods Updated
 - [X] Dependency Injection Added
 - [X] Unit Tests
+- [X] Tested and Working on API 23
+- [X] Tested and Working on API 35
+- [X] Instrument Tests
 
 # Glucode Interview Assignment
 

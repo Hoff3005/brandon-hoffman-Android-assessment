@@ -1,5 +1,6 @@
 package com.glucode.about_you.about
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +24,10 @@ class AboutFragment : Fragment() {
     private val engineerViewModel: EngineerViewmodel by activityViewModels()
     private lateinit var profileView: ProfileStandardCardView
 
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         try {
-            it?.let {
+            uri?.let {
                 profileView.setProfileImage(it)
                 engineerViewModel.updatedSelectedEngineerProfilePicture(it.toString())
             }
