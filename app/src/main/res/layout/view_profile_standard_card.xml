@@ -17,7 +17,7 @@
             android:background="@drawable/round_outline"
             android:contentDescription="@string/profile_image_content_description"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/ic_person"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

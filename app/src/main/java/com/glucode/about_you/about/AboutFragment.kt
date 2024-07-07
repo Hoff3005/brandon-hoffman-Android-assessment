@@ -9,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.glucode.about_you.R
 import com.glucode.about_you.about.views.ProfileStandardCardView
 import com.glucode.about_you.about.views.QuestionCardView
 import com.glucode.about_you.databinding.FragmentAboutBinding
@@ -81,8 +80,6 @@ class AboutFragment : Fragment() {
         stats = engineer.quickStats
         if (engineer.defaultImageName.isNotBlank()) {
             setProfileImage(engineer.defaultImageName.toUri())
-        } else {
-            setProfileImage(R.drawable.ic_person)
         }
         onProfileImageClicked = {
             galleryLauncher.launch("image/*")

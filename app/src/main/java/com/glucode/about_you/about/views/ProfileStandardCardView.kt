@@ -45,6 +45,7 @@ class ProfileStandardCardView @JvmOverloads constructor(
         elevation = resources.getDimension(R.dimen.elevation_normal)
         setCardBackgroundColor(ContextCompat.getColor(context, R.color.black))
         binding.profileStatsCard.radius = resources.getDimension(R.dimen.corner_radius_normal)
+        binding.profileImage.clipToOutline = true
         binding.profileImage.setOnClickListener {
             onProfileImageClicked()
         }
@@ -52,9 +53,5 @@ class ProfileStandardCardView @JvmOverloads constructor(
 
     fun setProfileImage(uri: Uri) {
         binding.profileImage.setImageURI(uri)
-    }
-
-    fun setProfileImage(imageResourceId: Int) {
-        binding.profileImage.setImageResource(imageResourceId)
     }
 }
